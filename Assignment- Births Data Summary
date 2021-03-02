@@ -1,51 +1,51 @@
--- Average Age of mother in Ascending
+1-- Average Age of mother in Ascending
 SELECT Ave_Age_of_Mother, Ave_OE_Gestational_Age_Wks
 FROM `bigquery-public-data.sdoh_cdc_wonder_natality.county_natality`
 Order by Ave_Age_of_Mother ASC 
 
---County of Residence_FIPS = 12081 
+2--County of Residence_FIPS = 12081 
 SELECT County_of_Residence, County_of_Residence_FIPS
 FROM `bigquery-public-data.sdoh_cdc_wonder_natality.county_natality`
 where County_of_Residence_FIPS = '12081' 
 
--- Avg. prenatal weeks <10 and Avg Gestational weeks < 38
+3-- Avg. prenatal weeks <10 and Avg Gestational weeks < 38
 SELECT County_of_Residence, County_of_Residence_FIPS, Ave_Number_of_Prenatal_Wks, Ave_OE_Gestational_Age_Wks
 FROM `bigquery-public-data.sdoh_cdc_wonder_natality.county_natality`
 Where Ave_Number_of_Prenatal_Wks < 10 and Ave_OE_Gestational_Age_Wks < 38
 
---Max Births in Los Angeles
+4--Max Births in Los Angeles
 SELECT max(Births)
 FROM `bigquery-public-data.sdoh_cdc_wonder_natality.county_natality` 
 Where County_of_Residence = "Los Angeles,CA"
 
---Total no. of births between 2018-01-01 and 2019-01-01
+5--Total no. of births between 2018-01-01 and 2019-01-01
 SELECT Sum(Births)
 FROM `bigquery-public-data.sdoh_cdc_wonder_natality.county_natality` 
 Where Year between '2018-01-01'and '2019-01-01'
 
---Minimum pre pregnancy BMI 
+6--Minimum pre pregnancy BMI 
 SELECT Min(Ave_Pre_pregnancy_BMI)
 FROM `bigquery-public-data.sdoh_cdc_wonder_natality.county_natality` 
 
---County ending with CA (Counties in California)
+7--County ending with CA (Counties in California)
 SELECT County_of_Residence
 FROM `bigquery-public-data.sdoh_cdc_wonder_natality.county_natality` 
 where County_of_Residence LIKE '%CA'
 
---Join Source of Payment
+8--Join Source of Payment
 SELECT county_natality_by_payment.Source_of_Payment, county_natality_by_payment.Source_of_Payment_Code
 FROM `bigquery-public-data.sdoh_cdc_wonder_natality.county_natality_by_payment` as county_natality_by_payment
 join `bigquery-public-data.sdoh_cdc_wonder_natality.county_natality` as county_natality 
 on county_natality_by_payment.County_of_Residence = county_natality.County_of_Residence
 
---Join Mothers Race
+9--Join Mothers Race
 SELECT county_natality.County_of_Residence, county_natality.Births, county_natality.Year, county_natality_by_mother_race.Mothers_Single_Race
 FROM `bigquery-public-data.sdoh_cdc_wonder_natality.county_natality` as county_natality 
 JOIN `bigquery-public-data.sdoh_cdc_wonder_natality.county_natality_by_mother_race` as county_natality_by_mother_race
 on county_natality.County_of_Residence = county_natality_by_mother_race.County_of_Residence
 
---Join Fathers Single Race
-SELECT county_natality_by_father_race.Fathers_Single_Race
+10--Join Fathers Single Race
+SELECT county_natality.County_of_Residence, county_natality.Year,county_natality.Births, county_natality_by_father_race.Fathers_Single_Race
 FROM `bigquery-public-data.sdoh_cdc_wonder_natality.county_natality_by_father_race` as county_natality_by_father_race
 left JOIN `bigquery-public-data.sdoh_cdc_wonder_natality.county_natality` as county_natality 
 on county_natality_by_father_race.County_of_Residence = county_natality.County_of_Residence
