@@ -14,7 +14,7 @@ FROM `bigquery-public-data.sdoh_cdc_wonder_natality.county_natality`
 Where Ave_Number_of_Prenatal_Wks < 10 and Ave_OE_Gestational_Age_Wks < 38
 
 --Max Births in Los Angeles
-SELECT avg(Births)
+SELECT max(Births)
 FROM `bigquery-public-data.sdoh_cdc_wonder_natality.county_natality` 
 Where County_of_Residence = "Los Angeles,CA"
 
@@ -39,7 +39,7 @@ join `bigquery-public-data.sdoh_cdc_wonder_natality.county_natality` as county_n
 on county_natality_by_payment.County_of_Residence = county_natality.County_of_Residence
 
 --Join Mothers Race
-SELECT county_natality.County_of_Residence, county_natality.Births, county_natality.Year
+SELECT county_natality.County_of_Residence, county_natality.Births, county_natality.Year, county_natality_by_mother_race.Mothers_Single_Race
 FROM `bigquery-public-data.sdoh_cdc_wonder_natality.county_natality` as county_natality 
 JOIN `bigquery-public-data.sdoh_cdc_wonder_natality.county_natality_by_mother_race` as county_natality_by_mother_race
 on county_natality.County_of_Residence = county_natality_by_mother_race.County_of_Residence
